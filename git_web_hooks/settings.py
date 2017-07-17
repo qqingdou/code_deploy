@@ -28,7 +28,7 @@ SECRET_KEY = 'sa!-sghb2ep5o6_@&0^)94t856-@c=nl8f4svjnz^1xw+-wug4'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', '192.168.0.240', 'gitlab.firedg.com']
+ALLOWED_HOSTS = ['127.0.0.1', '192.168.0.240']
 
 
 # Application definition
