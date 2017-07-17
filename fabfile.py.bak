@@ -1,0 +1,120 @@
+# /usr/bin/python
+# -*- coding:utf-8 -*-
+
+import sys
+import time
+import json
+from fabric.api import *
+
+# env.user = 'root'
+# env.hosts = ['192.168.0.55']
+
+local_git_dir = '/var/opt/gitlab/git-data/repositories/'
+remote_dir = '/data/huowu/tangping_repos/dev-3/test'
+
+temp_file_name = ''
+
+temp_file_path = '/tmp/'
+
+def json_load_byteified(file_handle):
+    return _byteify(
+        json.load(file_handle, object_hook=_byteify),
+        ignore_dicts=True
+    )
+
+def json_loads_byteified(json_text):
+    return _byteify(
+        json.loads(json_text, object_hook=_byteify),
+        ignore_dicts=True
+    )
+
+
+def _byteify(data, ignore_dicts=False):
+    # if this is a unicode string, return its string representation
+    if isinstance(data, unicode):
+        return data.encode('utf-8')
+    # if this is a list of values, return list of byteified values
+    if isinstance(data, list):
+        return [ _byteify(item, ignore_dicts=True) for item in data ]
+    # if this is a dictionary, return dictionary of byteified keys and values
+    # but only if we haven't already byteified it
+    if isinstance(data, dict) and not ignore_dicts:
+        return {
+            _byteify(key, ignore_dicts=True): _byteify(value, ignore_dicts=True)
+            for key, value in data.iteritems()
+        }
+    # if it's anything else, return it in its original form
+    return data
+
+
+def unicode2dict(content=''):
+    """
+    UNICODE 转为为dict
+    :param content:
+    :return:
+    """
+    if not content:
+        return None
+    try:
+        content = content.replace('equal_equal', '=')
+        content = content.replace('+', ',')
+        content = content.replace('|', ':')
+        post_content = json_loads_byteified(content)
+        return json.loads(post_content)
+    except:
+        return None
+
+'''打包代码'''
+def pack(content=''):
+
+    global temp_file_name
+    global temp_file_path
+    global local_git_dir
+
+    if content is None:
+        print 'no content'
+        return False
+
+    post_content = unicode2dict(content)
+
+    if not isinstance(post_content, dict):
+        print 'invalid content dict'
+        return False
+
+    before_commit_id = post_content['before']
+    after_commit_id = post_content['after']
+    project = post_content['project']
+    temp_file_name = ''.join([project['namespace'], '_', project['name'], str(int(time.time())), '.tar.gz'])
+    temp_file_path = ''.join([temp_file_path, temp_file_name])
+    local_git_dir = ''.join([local_git_dir, project['path_with_namespace'], '.git'])
+
+    print("before_commit_id: %s, after_commit_id: %s, project: %s, temp_file_name: %s, temp_file_path: %s, local_git_dir: %s " % (before_commit_id, after_commit_id, project, temp_file_name, temp_file_path, local_git_dir))
+
+    """定义一个pack任务"""
+    """
+    with local('sudo -i'):
+        local('rm -Rf ' + temp_file_path)
+        with lcd(local_git_dir):
+            local('git archive master -o ' + temp_file_path + ' HEAD $(git diff ' + before_commit_id + ' ' + after_commit_id + ' --name-only)')
+    """
+    with lcd(local_git_dir):
+        local('git archive -o ' + temp_file_path + ' HEAD $(git diff ' + before_commit_id + ' ' + after_commit_id + ' --name-only)')
+
+    print('complete')
+
+    return True
+
+'''发布代码'''
+def deploy():
+    with cd(remote_dir):
+        put(temp_file_path, remote_dir)
+        run('tar -zxvf ' + temp_file_name)
+        run('rm -Rf ' + temp_file_name)
+
+    local('rm -Rf ' + temp_file_path)
+
+def my_main(content=''):
+    if pack(content):
+        deploy()
+
+

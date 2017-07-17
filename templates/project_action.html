@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+
+{% block title %}项目操作{% endblock %}
+
+{% block content %}
+    <article class="page-container">
+	<form action="" id="form1" method="post" class="form form-horizontal" id="form-member-add">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>项目名称：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{{ project.name }}" placeholder="请输入项目名称" id="name" name="name" required>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>GIT代码地址：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{{ project.git_http_url }}" placeholder="请输入GIT代码地址,为SSH地址" id="git_http_url" name="git_http_url" required>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>开发服务器IP：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{{ project.develop_server_ip }}" placeholder="请输入开发服务器IP" id="develop_server_ip" name="develop_server_ip" required>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>开发服务器项目目录：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{{ project.develop_server_dir }}" placeholder="请输入开发服务器项目目录" id="develop_server_dir" name="develop_server_dir" required>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>开发服务器帐号：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{{ project.develop_server_account }}" placeholder="请输入开发服务器帐号" id="develop_server_account" name="develop_server_account" required>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>测试服务器IP：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{{ project.test_server_ip }}" placeholder="请输入测试服务器IP" id="test_server_ip" name="test_server_ip" required>
+			</div>
+		</div>
+        <div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>测试服务器项目目录：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{{ project.test_server_dir }}" placeholder="请输入测试服务器项目目录" id="test_server_dir" name="test_server_dir" required>
+			</div>
+		</div>
+        <div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>测试服务器帐号：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{{ project.test_server_account }}" placeholder="请输入测试服务器帐号" id="test_server_account" name="test_server_account" required>
+			</div>
+		</div>
+        <div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>生产服务器IP：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{{ project.produce_server_ip }}" placeholder="请输入生产服务器IP" id="produce_server_ip" name="produce_server_ip" required>
+			</div>
+		</div>
+        <div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>生产服务器项目目录：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{{ project.produce_server_dir }}" placeholder="请输入生产服务器项目目录" id="produce_server_dir" name="produce_server_dir" required>
+			</div>
+		</div>
+        <div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>生产服务器帐号：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{{ project.produce_server_account }}" placeholder="请输入生产服务器帐号" id="produce_server_account" name="produce_server_account" required>
+			</div>
+		</div>
+        <div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3">第一责任人：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{{ project.frp }}" placeholder="请输入项目第一责任人" id="frp" name="frp">
+			</div>
+		</div>
+        <div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3">第二责任人：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{{ project.srp }}" placeholder="请输入项目第二责任人" id="srp" name="srp">
+			</div>
+		</div>
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+				<input class="btn btn-primary radius" id="submit" type="button" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+				<input class="btn btn-primary radius" type="hidden" value="{{ project.id }}" name="id">
+			</div>
+		</div>
+	</form>
+</article>
+{% endblock %}
+
+{% block footer %}
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript">
+$(function(){
+    $('#submit').bind('click', function () {
+        $.ajax({
+            type: 'POST',
+            dataType: 'JSON',
+            url: '/admin/project.action',
+            data: $('#form1').serialize(),
+            success: function (data) {
+                if(data && data.code == 0){
+                    alert('操作成功.');
+                    parent.window.location.reload();
+                    parent.layer.closeAll();
+                }else{
+                    alert('返回了错误的格式。' + data.msg);
+                }
+            },
+            error: function () {
+                alert('出错了,请联系技术.');
+            }
+        })
+    });
+	$('.skin-minimal input').iCheck({
+		checkboxClass: 'icheckbox-blue',
+		radioClass: 'iradio-blue',
+		increaseArea: '20%'
+	});
+
+	$("#form-member-add").validate({
+		rules:{
+			username:{
+				required:true,
+				minlength:2,
+				maxlength:16
+			},
+			sex:{
+				required:true,
+			},
+			mobile:{
+				required:true,
+				isMobile:true,
+			},
+			email:{
+				required:true,
+				email:true,
+			},
+			uploadfile:{
+				required:true,
+			},
+
+		},
+		onkeyup:false,
+		focusCleanup:true,
+		success:"valid",
+		submitHandler:function(form){
+			//$(form).ajaxSubmit();
+			var index = parent.layer.getFrameIndex(window.name);
+			//parent.$('.btn-refresh').click();
+			parent.layer.close(index);
+		}
+	});
+});
+</script>
+{% endblock %}
