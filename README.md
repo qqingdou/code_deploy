@@ -1,7 +1,8 @@
 # code_deploy
 代码自动部署
 
-#步骤一
+步骤一
+
 启动该项目，可以直接runserver 或者 uwsgi
 
 #步骤二
